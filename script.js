@@ -12,6 +12,7 @@ let btnAddNewTweet = document.querySelector('#add-new-tweet');
 let btnClearFilter = document.querySelector('#clear-filter');
 let tweets = document.querySelector('#tweets')
 let inputUser = document.querySelector('#input-user')
+let inputContent = document.querySelector('#input-content')
 
 
 /*
@@ -64,13 +65,16 @@ renderTweets();
 // 2. 새 글 추가하기 => function 만들고 => button 으로 연결할 것임
 // 이름까지 넣어줄 것
 function addNewTweet() {
+
+    // 위에는 단지 element를 불러오기 위해서 선언함
     let inputUserValue = document.querySelector('#input-user').value;
+    let inputContentValue = document.querySelector('#input-content').value
 
     // 객체를 만들고
     let newTweet = {};
     // 객체에 키 값으로 조회해서 값을 넣어준다
     newTweet.name = inputUserValue;
-    newTweet.msg = '새 내용'
+    newTweet.msg = inputContentValue
         // 기존의 DATA 객체에 새로 만든 newTweet객체를 담음
     DATA.push(newTweet);
 
