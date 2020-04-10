@@ -104,7 +104,7 @@ function randomNewTweet() {
     DATA.push(randomNewTweet)
 
     // 렌더링 하는데에 다시 뿌려줘야 함
-    let randomNewTweetElement = renderTweets(randomNewTweet);
+    let randomNewTweetElement = renderTweet(randomNewTweet);
     tweets.appendChild(randomNewTweetElement);
 }
 
