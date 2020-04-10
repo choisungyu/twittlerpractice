@@ -9,7 +9,9 @@ console.log('!!!')
 
 // 미리 queryselector 를 통해서 아이디를 가져옴
 let btnAddNewTweet = document.querySelector('#add-new-tweet');
+let btnAddRandomTweet = document.querySelector('#add-random-tweet')
 let btnClearFilter = document.querySelector('#clear-filter');
+
 let tweets = document.querySelector('#tweets')
 let inputUser = document.querySelector('#input-user')
 let inputContent = document.querySelector('#input-content')
@@ -36,11 +38,13 @@ function renderTweet(tweetObj) { // tweetObj 에 객체 element 들어감
 
 
     userDiv.textContent = tweetObj.name;
+
+    // className 을 user 로 해서 객체에 user 로 접근할 때 이름이 조회됨 ?
     userDiv.className = 'user'; // 클래스 변경 과 클래스 추가 의 차이?
 
 
     msgDiv.textContent = tweetObj.msg;
-    msgDiv.className = 'comment'
+    msgDiv.className = 'content'
         // msgDiv.className = 'msg'
 
     // userDiv.onclick
@@ -85,5 +89,30 @@ function addNewTweet() {
     tweets.appendChild(newTweetElement);
 }
 
+function randomNewTweet() {
+    // 함수 자체가 return 으로 객체가 반환 되므로
+    let randomUserValue = generateNewTweet().user
+    let randomContentvalue = generateNewTweet().message
+    console.log(randomUserValue + "," + randomContentvalue)
+
+    // addNewTweet 에서 한 것 처럼 , randomValue 들도 newTweet 에 담는다
+    let randomNewTweet = {};
+    randomNewTweet.name = randomUserValue;
+    randomNewTweet.msg = randomContentvalue;
+
+    // DATA에 추가하고
+    DATA.push(randomNewTweet)
+
+    // 렌더링 하는데에 다시 뿌려줘야 함
+    let randomNewTweetElement = renderTweets(randomNewTweet);
+    tweets.appendChild(randomNewTweetElement);
+}
+
+function clearfilter() {
+    tweets.innerHTML = '';
+    renderTweets();
+}
 // 
 btnAddNewTweet.onclick = addNewTweet;
+btnClearFilter.onclick = clearfilter;
+btnAddRandomTweet.onclick = randomNewTweet;
