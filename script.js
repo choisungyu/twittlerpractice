@@ -5,6 +5,12 @@
     4. li ele 에 div ele 붙이는 방법
 */
 
+/*
+    문제점 : 
+    1. 필터 초기화를 하게 되면 DATA에 있는 array 들을 rendering 하게 되는데
+    계속해서 추가가 되면 필터초기화를 해봤자 그냥 DATA에 있는 
+*/
+
 console.log('!!!')
 
 // 미리 queryselector 를 통해서 아이디를 가져옴
@@ -28,7 +34,8 @@ let inputContent = document.querySelector('#input-content')
 
 */
 
-// 0. 뿌려주는 곳(단일)
+
+// 0. 뿌려주는 곳(단일) // tweetObj 라는 객체를 파라미터로 받음
 function renderTweet(tweetObj) { // tweetObj 에 객체 element 들어감
     // ul 안에 넣어줄  { li , div }(이름, 내용) 초기화 하기
     let li = document.createElement('li');
@@ -42,7 +49,11 @@ function renderTweet(tweetObj) { // tweetObj 에 객체 element 들어감
     // className 을 user 로 해서 객체에 user 로 접근할 때 이름이 조회됨 ?
     userDiv.className = 'user'; // 클래스 변경 과 클래스 추가 의 차이?
 
-
+    userDiv.onclick = function() {
+        console.log(tweetObj.name); // 김코딩 , 박해커 => 이름만 출력
+        // 눌렀을 때 , 필터링 해주는거 추가
+        filterByUsername(tweetObj.name)
+    }
     msgDiv.textContent = tweetObj.msg;
     msgDiv.className = 'content'
         // msgDiv.className = 'msg'
@@ -54,6 +65,26 @@ function renderTweet(tweetObj) { // tweetObj 에 객체 element 들어감
     return li;
 
 }
+// 받아온 user 랑 tweet.name 이랑 맞는지 체크
+function filterByUsername(user) {
+    let filteredData = DATA.filter(tweet => {
+        return tweet.name === user // DATA 객체에 잇는 중복되는 name들 === 클릭한 name
+    })
+
+    // 이름이 같은 애들인 내용을 가진 객체 들만 filter되서 배열에 모음
+    console.log(filteredData)
+
+    tweets.innerHTML = '';
+
+    // filter 된 데이타들 반복문 돌려서 하나의 element(객체)만 뽑음 => 그걸 다시 필터링
+    filteredData.forEach(element => {
+        // 다시 rendertweet 메소드에 element 객체 넣음 => rendering
+        let li = renderTweet(element)
+            // 갯수만 큼 다시 appendchild
+        tweets.appendChild(li)
+    });
+}
+
 
 // 1. 뿌려주는 곳(여러개)
 function renderTweets() {
@@ -106,13 +137,15 @@ function randomNewTweet() {
     // 렌더링 하는데에 다시 뿌려줘야 함
     let randomNewTweetElement = renderTweet(randomNewTweet);
     tweets.appendChild(randomNewTweetElement);
+    console.log(DATA)
 }
 
-function clearfilter() {
+function clearFilter() {
+    console.log(DATA)
     tweets.innerHTML = '';
     renderTweets();
 }
 // 
 btnAddNewTweet.onclick = addNewTweet;
-btnClearFilter.onclick = clearfilter;
+btnClearFilter.onclick = clearFilter;
 btnAddRandomTweet.onclick = randomNewTweet;
